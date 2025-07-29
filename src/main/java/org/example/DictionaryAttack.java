@@ -1,8 +1,6 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -18,9 +16,9 @@ public class DictionaryAttack {
     }
 
     public void DictionaryAttackFun(){
-        Path fileName = Path.of("D:\\H.K\\FAX\\Prog3\\Project\\Pass1\\prj\\src\\main\\java\\PasswordDictionary.txt");
+        Path fileName = Path.of("PasswordDictionary.txt");
 
-        try (BufferedReader buffer = new BufferedReader(new FileReader(String.valueOf(fileName)))){
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream(fileName.toFile()), "ISO-8859-1"))){
             String str;
             while ((str = buffer.readLine()) != null){
                 commonPasswords.add(str);
@@ -40,9 +38,6 @@ public class DictionaryAttack {
         }
     }
 
-    /*public void setCommonPasswords(ArrayList<String> commonPasswordsHashed) {
-        this.commonPasswordsHashed = commonPasswordsHashed;
-    }*/
 
     public ArrayList<String> getCommonPasswordsHashed() {
         return commonPasswordsHashed;

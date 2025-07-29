@@ -15,7 +15,8 @@ public class BruteForce {
     String pass;
     int length;
     boolean upperCase;
-    boolean lowerCase; boolean digits;
+    boolean lowerCase;
+    boolean digits;
     boolean specialCharsBool;
     boolean md5;
     boolean start;
@@ -108,12 +109,12 @@ public class BruteForce {
 
         long combinationsWithRepetitions = dividentFact / divider;*/
 
-        Logger.log("There are: " + Math.pow(n,r) + " combinations", LogLevel.Success);
-        Logger.log("Entering loop to generate combinations", LogLevel.Status);
+        Logger.log("There are: " + Math.pow(n,r) + " combinations", LogLevel.Status);
+        //Logger.log("Entering loop to generate combinations", LogLevel.Status);
         Random rand = new Random();
         long maxCombinations = (long) Math.pow(n,r);
 
-        for (int i=0; i<maxCombinations; i++){
+        /*for (int i=0; i<maxCombinations; i++){
             //Logger.log("Creating combination", LogLevel.Status);
             String pass = "";
             int length = 0;
@@ -144,7 +145,32 @@ public class BruteForce {
                 candidatePasswordsHashed.add(org.example.SHA256.toSHA256(getCandidatePasswords().get(i)));
                 setCandidatePasswordsHashed(candidatePasswordsHashed);
             }
+        }*/
+        Logger.log("Hashing the combinations", LogLevel.Status);
+        for (int i = 0; i < maxCombinations; i++) {
+            String pass = "";
+            int length = 0;
+            while (length < r) {
+                int randInt = rand.nextInt(getCharSet().size());
+                pass += getCharSet().get(randInt);
+                length++;
+            }
+
+            if (!getCandidatePasswords().contains(pass)) {
+                candidatePasswords.add(pass);
+                setCandidatePasswords(candidatePasswords);
+
+                if (md5) {
+                    candidatePasswordsHashed.add(org.example.MD5.toMD5crack(pass));
+                } else {
+                    candidatePasswordsHashed.add(org.example.SHA256.toSHA256(pass));
+                }
+                setCandidatePasswordsHashed(candidatePasswordsHashed);
+            } else {
+                i--;
+            }
         }
+
 
         Logger.log("Brute force: Size of array: " + getCandidatePasswordsHashed().size());
 

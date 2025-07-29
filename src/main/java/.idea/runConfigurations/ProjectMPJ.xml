@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ProjectMPJ" type="Application" factoryName="Application">
+    <envs>
+      <env name="MPJ_HOME" value="C:\mpj" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="org.example.BruteForceDistributed" />
+    <module name="main" />
+    <option name="VM_PARAMETERS" value="-jar $MPJ_HOME\lib\starter.jar -np 4 org.example.BruteForceDistributed" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

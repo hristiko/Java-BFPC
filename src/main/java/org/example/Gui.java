@@ -15,6 +15,9 @@ public class Gui {
     private boolean characterSetLowerCase = false;
     private boolean characterSetDigits = false;
     private boolean characterSetSpecialCharacters = false;
+    private boolean seqType = false;
+    private boolean parType = false;
+    private boolean disType = false;
     private boolean bfType = false;
     private boolean daType = false;
     private int maxPasswordLength;
@@ -36,6 +39,57 @@ public class Gui {
         panel.setLayout(new GridLayout(15, 2));
 
         Font boldFont = new Font("Arial", Font.BOLD, 14);
+
+        //----------ZERO ROW------------
+        JPanel p0 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p0.setBackground(Color.DARK_GRAY);
+        Label labelSelectMode = new Label("Select the mode for cracking:");
+        labelSelectMode.setForeground(Color.white);
+        labelSelectMode.setFont(boldFont);
+        p0.add(labelSelectMode);
+
+        JRadioButton seq = new JRadioButton("Sequential");
+        seq.setForeground(Color.WHITE);
+        seq.setBackground(Color.darkGray);
+
+        JRadioButton par = new JRadioButton("Parallel");
+        par.setForeground(Color.WHITE);
+        par.setBackground(Color.darkGray);
+
+        JRadioButton dis = new JRadioButton("Distributed");
+        dis.setForeground(Color.WHITE);
+        dis.setBackground(Color.darkGray);
+
+        ButtonGroup p0options = new ButtonGroup();
+        p0options.add(seq);
+        p0options.add(par);
+        p0options.add(dis);
+
+        p0.add(seq);
+        p0.add(par);
+        p0.add(dis);
+
+        seq.addActionListener(e -> {
+            setSeqType(true);
+            setParType(false);
+            setDisType(false);
+            Logger.log("GUI: Pressed SEQ: " + isSeqType());
+        });
+
+        par.addActionListener(e -> {
+            setParType(true);
+            setSeqType(false);
+            setDisType(false);
+            Logger.log("GUI: Pressed PAR: " + isParType());
+        });
+
+        dis.addActionListener(e -> {
+            setDisType(true);
+            setSeqType(false);
+            setParType(false);
+            Logger.log("GUI: Pressed DIS: " + isDisType());
+        });
+
 
         //-----------FIRST ROW----------
         JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -250,11 +304,24 @@ public class Gui {
         //--------TENTH ROW--------------
         JPanel p7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         p7.setBackground(Color.DARK_GRAY);
-        //password.setPreferredSize(new Dimension(50, 20));
         password.setForeground(Color.green);
         password.setFont(boldFont);
         p7.add(password);
 
+        //--------ELEVENTH ROW--------------
+        JPanel p8 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p8.setBackground(Color.DARK_GRAY);
+        JButton interruptButton = new JButton("Interrupt");
+        interruptButton.setBackground(Color.RED);
+        interruptButton.setForeground(Color.WHITE);
+        p8.add(interruptButton);
+
+        interruptButton.addActionListener(e -> {
+            requestInterrupt();
+            System.exit(0);
+        });
+
+        panel.add(p0);
         panel.add(p1);
         panel.add(p2);
         panel.add(p2Options);
@@ -264,6 +331,7 @@ public class Gui {
         panel.add(p4Pass);
         panel.add(p6);
         panel.add(p7);
+        panel.add(p8);
 
         frame.add(panel);
         frame.setVisible(true);
@@ -272,6 +340,11 @@ public class Gui {
 
     public void fill(double val) {
         crackBar.setString((Math.round(val*100.)/100.) +"%");
+    }
+
+
+    public int getValue() {
+       return crackBar.getValue();
     }
 
     public void finalPassword (String pass){
@@ -316,6 +389,30 @@ public class Gui {
 
     public boolean isTargetSHA256(){
         return targetSHA5;
+    }
+
+    public boolean isDisType() {
+        return disType;
+    }
+
+    public void setDisType(boolean disType) {
+        this.disType = disType;
+    }
+
+    public boolean isParType() {
+        return parType;
+    }
+
+    public void setParType(boolean parType) {
+        this.parType = parType;
+    }
+
+    public boolean isSeqType(){
+        return seqType;
+    }
+
+    public void setSeqType(boolean seqType) {
+        this.seqType = seqType;
     }
 
     public boolean isBfType() {
@@ -365,4 +462,15 @@ public class Gui {
     public void setStart(boolean start) {
         this.start = start;
     }
+
+    private boolean interruptRequested = false;
+
+    public boolean isInterruptRequested() {
+        return interruptRequested;
+    }
+
+    public void requestInterrupt() {
+        interruptRequested = true;
+    }
+
 }

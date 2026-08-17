@@ -123,11 +123,11 @@ The experiments compared sequential, parallel, and distributed execution.
 
 ### Performance Comparison
 
-![Brute-force performance comparison](results/brute-force-performance.png)
+![Brute-force performance comparison](brute-force-performance.png)
 
 ### Zoomed Performance Comparison
 
-![Zoomed brute-force performance comparison](results/brute-force-performance-zoomed.png)
+![Zoomed brute-force performance comparison](brute-force-performance-zoomed.png)
 
 ### Observations
 
